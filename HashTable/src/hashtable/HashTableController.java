@@ -103,9 +103,9 @@ public class HashTableController implements Initializable {
             HashedDictionaryOpenAddressingPerfectInstrumented.resetTotalProbes();
 
             this.console.appendText("The data is: \n" + getString(stringData) + "\n\n");
-            insertAllData(linearTable, stringData);
-            insertAllData(doubleTable, stringData);
-            insertAllData(perfectTable, stringData);
+            insertHalfData(linearTable, stringData);
+            insertHalfData(doubleTable, stringData);
+            insertHalfData(perfectTable, stringData);
 
             insertionLinearProbes += HashedDictionaryOpenAddressingLinearInstrumented.getTotalProbes();
             insertionDoubleProbes += HashedDictionaryOpenAddressingDoubleInstrumented.getTotalProbes();
@@ -275,6 +275,18 @@ public class HashTableController implements Initializable {
 
         // ADD CODE TO GENERATE THE RANDOM WORDS
         //>>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        for (int i = 0; i < size; i++){
+            Random r = new Random();
+            String Word = (firstSyl[r.nextInt(15)] + secondSyl[r.nextInt(15)] + thirdSyl[r.nextInt(15)]);
+            if (!checkTable.contains(Word)){
+                checkTable.add(Word, Word);
+                result[i] = Word;
+            }
+            else{
+                i--;
+            }
+        }
+        
         //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         return result;
     }
@@ -290,6 +302,9 @@ public class HashTableController implements Initializable {
         }
     }
 
+   
+    
+    
     private Integer[] generateRandomArray(int size, int seed) {
 
         Integer result[] = new Integer[size];
@@ -394,14 +409,43 @@ public class HashTableController implements Initializable {
 // ADD A METHOD HERE TO INSERT THE FIRST HALF OF THE DATA VALUES IN AN ARRAY
 // INTO A DICTIONARY
 //>>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+     private void insertHalfData(DictionaryInterface<String, String> dict, String[] data) {
+        for (int i = 0; i < data.length/2; i++) {
+            dict.add(data[i], data[i]);
+        }
+    }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 // ADD A METHOD HERE TO SEARCH FOR ITEMS FROM THE FIRST HALF OF THE ARRAY
 // (SUCCESS SEARCHES)
 //>>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+     private boolean searchFirstHalf (DictionaryInterface<String, String> dict, String[] data){
+        boolean result = true;
+        for (int i = 0; i < data.length/2;i++){
+            if (dict.contains(data[i])){
+                result = true;
+            }
+            else{
+                return false;
+            }
+        }
+        return result;
+     }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 // ADD A METHOD HERE TO SEARCH FOR ITEMS FROM THE SECOND HALF OF THE ARRAY
 // (FAILURE SEARCHES)
 //>>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+      private boolean searchSecondHalf (DictionaryInterface<String, String> dict, String[] data){
+        boolean result = true;
+        for (int i = data.length/2; i < data.length;i++){
+            if (dict.contains(data[i])){
+                result = true;
+            }
+            else{
+                return false;
+            }
+        }
+        return result;
+     }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
      * A displayable representation of an array of Objects where toString is
