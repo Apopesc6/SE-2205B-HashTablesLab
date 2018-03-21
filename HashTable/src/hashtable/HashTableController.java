@@ -112,23 +112,34 @@ public class HashTableController implements Initializable {
             insertionPerfectProbes += HashedDictionaryOpenAddressingPerfectInstrumented.getTotalProbes();
 
             // ADD CODE HERE TO DO SUCCESSFULL AND FAILURE SEARCHES
+            searchFirstHalf(linearTable, stringData);
+            searchFirstHalf(doubleTable, stringData);
+            searchFirstHalf(perfectTable, stringData);
+            
+            successLinearProbes += HashedDictionaryOpenAddressingLinearInstrumented.getTotalProbes();
+            successDoubleProbes += HashedDictionaryOpenAddressingDoubleInstrumented.getTotalProbes();
+            successPerfectProbes += HashedDictionaryOpenAddressingPerfectInstrumented.getTotalProbes();
         }
 
         this.console.appendText("Linear hashing\n");
         this.console.appendText("    Total probes for inserting data values: " + insertionLinearProbes + "\n\n");
         this.console.appendText("       Average probes made: " + insertionLinearProbes / (float) (trials * insertCount) + "\n\n");
         // ADD CODE HERE TO REPORT THE RESULTS FOR THE SUCCESS AND FAILURE SEARCHES
-
+        this.console.appendText("    Total Success Searches: " + successLinearProbes + "\n\n");
+        
+        
         this.console.appendText("Double hashing\n");
         this.console.appendText("    Total probes for inserting data values: " + insertionDoubleProbes + "\n\n");
         this.console.appendText("       Average probes made: " + insertionDoubleProbes / (float) (trials * insertCount) + "\n\n");
         // ADD CODE HERE TO REPORT THE RESULTS FOR THE SUCCESS AND FAILURE SEARCHES
+        this.console.appendText("    Total Success Searches: " + successDoubleProbes + "\n\n");
 
         this.console.appendText("Perfect hashing\n");
         this.console.appendText("    Total probes for inserting data values: " + insertionPerfectProbes + "\n\n");
         this.console.appendText("       Average probes made: " + insertionPerfectProbes / (float) (trials * insertCount) + "\n\n");
 
         // ADD CODE HERE TO REPORT THE RESULTS FOR THE SUCCESS AND FAILURE SEARCHES
+        this.console.appendText("    Total Success Searches: " + successPerfectProbes + "\n\n");
     }
 
     private void RunHashTest(DictionaryInterface table) {
@@ -418,33 +429,19 @@ public class HashTableController implements Initializable {
 // ADD A METHOD HERE TO SEARCH FOR ITEMS FROM THE FIRST HALF OF THE ARRAY
 // (SUCCESS SEARCHES)
 //>>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-     private boolean searchFirstHalf (DictionaryInterface<String, String> dict, String[] data){
-        boolean result = true;
-        for (int i = 0; i < data.length/2;i++){
-            if (dict.contains(data[i])){
-                result = true;
-            }
-            else{
-                return false;
-            }
-        }
-        return result;
+     private void searchFirstHalf (DictionaryInterface<String, String> dict, String[] data){
+         for (int i=0; i < data.length/2; i++){
+             dict.contains(data[i]);
+         }
      }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 // ADD A METHOD HERE TO SEARCH FOR ITEMS FROM THE SECOND HALF OF THE ARRAY
 // (FAILURE SEARCHES)
 //>>>>>>>>>>> ADDED CODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-      private boolean searchSecondHalf (DictionaryInterface<String, String> dict, String[] data){
-        boolean result = true;
-        for (int i = data.length/2; i < data.length;i++){
-            if (dict.contains(data[i])){
-                result = true;
-            }
-            else{
-                return false;
-            }
+      private void searchSecondHalf (DictionaryInterface<String, String> dict, String[] data){
+        for (int i = data.length/2; i < data.length; i++){
+            dict.contains(data[i]);
         }
-        return result;
      }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     /**
